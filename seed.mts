@@ -43,25 +43,25 @@ const seed = await createSeedClient({
   }
 });
 
-await seed.$resetDatabase(["!auth*", "!public.profiles"]);
+await seed.$resetDatabase();
 
-// // We create 11 test users with the same password that we can connect to
-// const PASSWORD = "testuser";
-// for (let i = 0; i < 11; i++) {
-//   const email = copycat.email(i).toLowerCase();
-//   const fullName = copycat.fullName(i);
-//   const userName = copycat.username(i);
+// We create 11 test users with the same password that we can connect to
+const PASSWORD = "testuser";
+for (let i = 0; i < 11; i++) {
+  const email = copycat.email(i).toLowerCase();
+  const fullName = copycat.fullName(i);
+  const userName = copycat.username(i);
   
-//   await supabase.auth.admin.createUser({
-//     email,
-//     password: PASSWORD,
-//     user_metadata: {
-//       name: fullName,
-//       user_name: userName,
-//     },
-//     email_confirm: true,
-//   });
-// }
+  await supabase.auth.admin.createUser({
+    email,
+    password: PASSWORD,
+    user_metadata: {
+      name: fullName,
+      user_name: userName,
+    },
+    email_confirm: true,
+  });
+}
 
 const { data: databaseProfiles } = await supabase.from("profiles").select('*').returns<Array<Tables<'profiles'>>>();
 
